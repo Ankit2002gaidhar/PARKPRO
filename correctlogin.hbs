@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1em;
+        }
+
+        .dashboard-container {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .widget {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px;
+            flex: 1;
+            max-width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .widget:hover {
+            transform: scale(1.05);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #f5ba1a;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .button:hover {
+            background-color: #f5ba1a;
+        }
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .title-box {
+            background-color: #f5ba1a;
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px; /* Reduce the margin */
+        }
+
+        h2 {
+            color: #333333;
+        }
+
+        p {
+            color: #555555;
+        }
+
+        .qrcode-container {
+            background-color: #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+        .user-info-container {
+            background-color: #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .user-info {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            color: #555555;
+        }
+
+        .user-info span {
+            font-weight: bold;
+            color: #555555;
+        }
+        img {
+            width: 100%;
+            border-radius: 6px;
+        }
+        .displayarea 
+        {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        #DATADISPLAY,
+        #QRDISPLAY 
+        {
+            padding: 20px;
+            margin: 10px;
+            flex: 1;
+            max-width: 300px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header style="background-color: #f5ba1a;">
+        <h1 >Welcome {{view.firstName}}</h1>
+    </header>
+
+    <div class="dashboard-container">
+        <div class="widget">
+            <h2>Profile</h2>
+            <p>User information and settings go here.</p>
+            <a href="#" class="button" onclick="viewdata()">View Profile</a>
+        </div>
+
+        <div class="widget">
+            <h2>Logout</h2>
+            <p>Logs you <output></output>.</p>
+            <a href="login" class="button">Logout</a>
+        </div>
+
+        <div class="widget">
+            <h2>View Your QR</h2>
+            <p>Display user QR</p>
+            <a href="#" class="button" onclick="viewimag()">View QR</a>
+        </div>
+
+    </div>
+    <div class="displayarea">
+        <div id="DATADISPLAY" ></div>
+        <div id="QRDISPLAY" ></div>
+    </div>
+    <script>
+        function viewimag()
+        {
+            const QRDISPLAY=document.getElementById('QRDISPLAY')
+            QRDISPLAY.innerHTML=`<div class="container">
+            <div class="title-box">
+                <h2>QR Code Generated</h2>
+            </div>
+            <p><b>Registration Number:{{view.vehicleRegno}}</b></p>
+            <div class="qrcode-container">
+                <img src="{{qrImage}}" alt="QR Code">
+            </div>
+            </div>`
+        }
+
+        function viewdata()
+        {
+            const DATADISPLAY=document.getElementById('DATADISPLAY')
+            DATADISPLAY.innerHTML=`<div class="container">
+        <div class="title-box">
+            <h2>User Information</h2>
+        </div>
+        <div class="user-info-container">
+            <div class="user-info">
+                <p><span>First Name:</span> {{view.firstName}}</p>
+                <p><span>Last Name:</span> {{view.lastName}}</p>
+                <p><span>Contact number:</span> {{view.cn1}}</p>
+                <p><span>Vehicle Regno.:</span> {{view.vehicleRegno}}</p>
+                <p><span>Email:</span> {{view.email}}</p>
+            </div>
+        </div>
+    </div>`
+        }
+    </script>
+    <div style="background-color: #333333; margin-left: 100px;"></div>
+</body>
+</html>

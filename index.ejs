@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Welcome to Park Pro</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        header {
+            background-color: #3498db;
+            padding: 15px;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #f5ba1a;
+            padding: 10px;
+            width: 100%;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #3498db;
+        }
+
+        #container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 5px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #messageButton {
+            background-color:#f5ba1a;
+            color: #fff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #callButton {
+            background-color: #f5ba1a;
+            color: #fff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        #container img {
+            max-width: 150px;
+            height: auto;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Park Pro</h1>
+    </header>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Features</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <div id="container">
+        <p style="color: purple;">Explore the future of parking with Park Pro</p>
+
+        <div class="button-container">
+            <a href="#" class="button" id="messageButton">Send Message</a>
+            <a href="#" class="button" id="callButton">Make a Call</a>
+        </div>
+
+        <img src="/images/park-pro-high-resolution-logo.png" alt="Park Pro Logo">
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const messageButton = document.getElementById('messageButton');
+            if (messageButton) {
+                messageButton.addEventListener('click', sendMessage);
+            }
+
+            function sendMessage() {
+                const toNumber = prompt("Enter the registration number displayed on QR code\n(MUST BE STRICTLY IN THE FORMAT -MH-XX AS-XXXX):");
+                //const toNumber='+919673837323'
+                const messageBody = 'Hello from Park Pro!';
+
+                // Replace the following URL with your actual server-side endpoint for sending SMS
+                // const serverEndpoint = '192.168.0.100:3000/send-sms';
+                const serverEndpoint = 'http://192.168.0.105:3000/send-sms'
+
+                fetch(serverEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        to: toNumber,
+                        body: messageBody,
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Message sent successfully:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error sending message:', error);
+                    });
+            }
+            const callButton = document.getElementById('callButton');
+            if (callButton) {
+                callButton.addEventListener('click', initiateCall);
+            }
+            function initiateCall() {
+                const toNumber = prompt("Enter the registration number displayed on QR code\n(MUST BE STRICTLY IN THE FORMAT -MH-XX AS-XXXX):");
+    
+                // Replace the following URL with your actual server-side endpoint for making a call
+                // const serverCallEndpoint = '192.168.0.100:3000/make-call';
+                const serverCallEndpoint = 'http://192.168.0.105:3000/make-call'
+    
+                fetch(serverCallEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        to: toNumber,
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Call initiated successfully:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error making call:', error);
+                    });
+            }
+        });
+    </script>
+</body>
+</html>
